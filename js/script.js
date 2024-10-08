@@ -58,9 +58,6 @@ if (currentTheme) {
     toggleSwitch.checked = true;
   }
 }
-else {
-  toggleSwitch.checked = true;
-}
 
 //Adding date
 
