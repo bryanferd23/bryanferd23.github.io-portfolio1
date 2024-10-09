@@ -59,9 +59,85 @@ if (currentTheme) {
   }
 }
 
-//Adding date
 
-let myDate = document.querySelector("#datee");
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
 
-const yes = new Date().getFullYear();
-myDate.innerHTML = yes;
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Certification modal functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const certificationCards = document.querySelectorAll('.certification-card');
+  const body = document.body;
+
+  certificationCards.forEach(card => {
+    const img = card.querySelector('.cert-image');
+    
+    img.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent the card click event from firing
+      openImageModal(img.src, img.alt);
+    });
+
+    // Remove the card click event listener
+    // card.addEventListener('click', () => {
+    //   openCardModal(card);
+    // });
+  });
+
+  function openImageModal(src, alt) {
+    const modal = createModal();
+    const modalImg = document.createElement('img');
+    modalImg.src = src;
+    modalImg.alt = alt;
+    modalImg.classList.add('modal-image');
+    modal.appendChild(modalImg);
+    showModal(modal);
+  }
+
+  function openCardModal(card) {
+    const modal = createModal();
+    const modalContent = card.cloneNode(true);
+    modalContent.classList.add('modal-content');
+    modal.appendChild(modalContent);
+    showModal(modal);
+  }
+
+  function createModal() {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.classList.add('modal-close');
+    modal.appendChild(closeButton);
+
+    closeButton.addEventListener('click', () => closeModal(modal));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal(modal);
+    });
+
+    return modal;
+  }
+
+  function showModal(modal) {
+    body.appendChild(modal);
+    body.style.overflow = 'hidden';
+    // Force reflow to ensure transition works
+    modal.offsetHeight;
+    modal.style.opacity = '1';
+  }
+
+  function closeModal(modal) {
+    modal.style.opacity = '0';
+    setTimeout(() => {
+      body.removeChild(modal);
+      body.style.overflow = 'auto';
+    }, 300); // Match this with your CSS transition time
+  }
+});

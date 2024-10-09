@@ -9,16 +9,15 @@
 /* variables */
 :root {
   /* Colors */
-  --primary-color: #ffcd42;
-  --secondary-color: #ffd35c;
-  --bg-primary: #ffffff;
-  --text-color: #222222;
-  --text-color-two: #ffffff;
-  --bg-secondary: #000000;
-  --card-background: #f4f4f4;
-  --bg-secondary-two: #111111;
-
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --primary-color: #00A8E8; /* Bright Blue */
+  --secondary-color: #007EA7; /* Deep Blue */
+  --accent-color: #FF9A8B; /* Coral */
+  --bg-primary: #FFFFFF; /* White */
+  --text-color: #003459; /* Dark Blue */
+  --text-color-two: #FFFFFF; /* White */
+  --bg-secondary: #003459; /* Dark Blue */
+  --card-background: #F6F6F6; /* Light Gray */
+  --bg-secondary-two: #00171F; /* Very Dark Blue */
 
   /* Font Weight */
   --weight-small: 400;
@@ -29,18 +28,22 @@
   --width-small: 600px;
   --width-medium: 1100px;
   --width-large: 1300px;
+
+  /* Shadow */
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="dark"] {
-  --primary-color: #ffcd42;
-  --secondary-color: #ffd35c;
-  --bg-primary: #000000;
-  --text-color: #ffffff;
-  --text-color-two: #222222;
-  --bg-secondary: #ffffff;
-  --card-background: #111111;
-  --bg-secondary-two: #f4f4f4;
-  --shadow: 0 2px 10px rgba(95, 95, 95, 0.2);
+  --primary-color: #00A8E8; /* Bright Blue */
+  --secondary-color: #007EA7; /* Deep Blue */
+  --accent-color: #FF9A8B; /* Coral */
+  --bg-primary: #00171F; /* Very Dark Blue */
+  --text-color: #FFFFFF; /* White */
+  --text-color-two: #003459; /* Dark Blue */
+  --bg-secondary: #FFFFFF; /* White */
+  --card-background: #003459; /* Dark Blue */
+  --bg-secondary-two: #F6F6F6; /* Light Gray */
+  --shadow: 0 2px 10px rgba(0, 168, 232, 0.2); /* Bright Blue shadow */
 }
 
 html {
@@ -160,13 +163,22 @@ body {
   width: 100%;
   height: 2px;
   background-color: var(--card-background);
-  margin: 5.5rem 0;
+  margin: 3rem 0; /* Adjusted from 5.5rem to 3rem */
 }
+
 /* Projects */
 #projects {
   display: flex;
   flex-direction: column;
-  margin: 2rem auto 5rem;
+  text-align: center; /* Add this line to center the text */
+}
+
+#projects h2 {
+  margin-bottom: 0.5rem; /* Add some space between the header and subtext */
+}
+
+#projects p {
+  margin-bottom: 2rem; /* Add some space between the subtext and project grid */
 }
 
 #projects .btn {
@@ -181,6 +193,37 @@ body {
   grid-gap: 0.9rem;
 }
 
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px; /* Increased border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Add a subtle border */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 168, 232, 0.15); /* Enhance shadow on hover */
+  border-color: var(--accent-color);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
 .card .project-bio p {
   font-size: 0.83rem;
 }
@@ -191,19 +234,40 @@ body {
 
 .project-info {
   display: flex;
-  justify-content: space-between;
-  opacity: 0;
-  position: relative;
-  transition: 0.5s ease-in-out;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  color: #ffffff;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .project-info {
+  transform: translateY(0);
 }
 
 .project-bio {
+  margin-bottom: 0.5rem;
+}
+
+.project-link {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  top: 160px;
-  left: 10px;
+  justify-content: flex-start;
+}
+
+.project-link a {
+  color: #ffffff;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.project-link a:hover {
+  color: var(--accent-color);
 }
 
 /* Footer */
@@ -331,4 +395,233 @@ body {
     border-radius: 5px;
     width: 80%;
   }
+}
+
+/* Add these new styles for the theme switch */
+.theme-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+}
+
+#theme-toggle {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-icons {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--secondary-color);
+  transition: .4s;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.toggle-icons:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--bg-primary);
+  transition: .4s;
+  border-radius: 50%;
+}
+
+#theme-toggle:checked + .toggle-icons:before {
+  transform: translateX(30px);
+}
+
+.toggle-icons .moon,
+.toggle-icons .sun {
+  width: 18px;
+  height: 18px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#theme-toggle:checked + .toggle-icons .moon {
+  opacity: 1;
+}
+
+#theme-toggle:checked + .toggle-icons .sun {
+  opacity: 0;
+}
+
+#theme-toggle:not(:checked) + .toggle-icons .moon {
+  opacity: 0;
+}
+
+#theme-toggle:not(:checked) + .toggle-icons .sun {
+  opacity: 1;
+}
+
+/* Certifications Section */
+#certifications {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+#certifications h2 {
+  margin-bottom: 0.5rem;
+}
+
+#certifications p {
+  margin-bottom: 2rem;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.certification-card {
+  background-color: var(--card-background);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: var(--text-color);
+  position: relative;
+  height: 320px;
+  cursor: default; /* Make the card not appear clickable */
+}
+
+.certification-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cert-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  cursor: pointer; /* Keep the image clickable */
+  transition: opacity 0.3s ease;
+}
+
+.cert-image:hover {
+  opacity: 0.8;
+}
+
+.cert-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--card-background);
+  padding: 1rem;
+  transform: translateY(30%); /* Initially show half of the info */
+  transition: transform 0.3s ease;
+  height: 30%; /* Set a fixed height for the info section */
+}
+
+.certification-card:hover .cert-info {
+  transform: translateY(0); /* Fully reveal on hover */
+}
+
+.cert-info h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.cert-info p {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  line-height: 1.4;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.certification-card:hover .cert-info p {
+  opacity: 1;
+}
+
+/* Responsive design for certifications */
+@media (max-width: 768px) {
+  .certifications-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-content {
+  background-color: var(--bg-primary);
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: var(--text-color-two);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+  background-color: var(--accent-color);
+}
+
+/* Add this new section for consistent spacing */
+.section-spacing {
+  margin: 6rem 0;
+}
+
+/* Add these styles to the existing Modal styles section */
+.image-modal {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-image {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
 }
