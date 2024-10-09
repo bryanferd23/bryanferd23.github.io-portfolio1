@@ -529,6 +529,7 @@ body {
   height: 30%; /* Set a fixed height for the info section */
 }
 
+
 .certification-card:hover .cert-info {
   transform: translateY(0); /* Fully reveal on hover */
 }
