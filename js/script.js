@@ -142,3 +142,63 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300); // Match this with your CSS transition time
   }
 });
+
+// Project card modal functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const projectCards = document.querySelectorAll('.project .card');
+  const body = document.body;
+
+  projectCards.forEach(card => {
+    card.addEventListener('click', () => {
+      openProjectModal(card);
+    });
+  });
+
+  function openProjectModal(card) {
+    const modal = createModal();
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+
+    const modalImg = document.createElement('img');
+    modalImg.src = getComputedStyle(card).backgroundImage.slice(4, -1).replace(/"/g, "");
+    modalImg.alt = card.querySelector('h3').textContent;
+    modalImg.classList.add('modal-image');
+    modalContent.appendChild(modalImg);
+
+    modal.appendChild(modalContent);
+    showModal(modal);
+  }
+
+  function createModal() {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.classList.add('modal-close');
+    modal.appendChild(closeButton);
+
+    closeButton.addEventListener('click', () => closeModal(modal));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal(modal);
+    });
+
+    return modal;
+  }
+
+  function showModal(modal) {
+    body.appendChild(modal);
+    body.style.overflow = 'hidden';
+    // Force reflow to ensure transition works
+    modal.offsetHeight;
+    modal.style.opacity = '1';
+  }
+
+  function closeModal(modal) {
+    modal.style.opacity = '0';
+    setTimeout(() => {
+      body.removeChild(modal);
+      body.style.overflow = 'auto';
+    }, 300); // Match this with your CSS transition time
+  }
+});
